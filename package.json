@@ -1,0 +1,23 @@
+{
+  "name": "local-rag-demonstrator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local RAG Architecture Demonstrator using Gemma 4, EmbeddingGemma 2, Chroma DB, and Node.js",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "setup:chroma": "bash scripts/setup-chroma.sh",
+    "setup": "npm install && npm run setup:chroma",
+    "chroma": "bash scripts/start-chroma.sh",
+    "dev:server": "npm --workspace server run dev",
+    "dev:client": "npm --workspace client run dev",
+    "dev": "concurrently -n chroma,server,client -c magenta,cyan,green \"npm run chroma\" \"npm run dev:server\" \"npm run dev:client\"",
+    "build": "npm --workspace server run build && npm --workspace client run build",
+    "start": "concurrently -n chroma,server -c magenta,cyan \"npm run chroma\" \"npm --workspace server run start\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
